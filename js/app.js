@@ -4,8 +4,6 @@ const action = prompt("Choose one of the following action: add, sub, mult, div. 
 let numberOne = Number(prompt("Enter first number"))
 let numberTwo = Number(prompt("Enter second number"))
 
-// add, sub, mult, div
-
 function add() {
     let sum = numberOne + numberTwo
     console.log(`Результат: ${numberOne} + ${numberTwo} = ${sum}`)
@@ -42,8 +40,3 @@ switch (action) {
     default:
         console.log('Please choose correct action in order to proceed')
 }
-
-// add(numberOne, numberTwo)
-// sub(numberOne, numberTwo)
-// mult(numberOne, numberTwo)
-// div(numberOne, numberTwo)
