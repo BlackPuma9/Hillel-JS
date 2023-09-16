@@ -1,4 +1,4 @@
-# Home Work 4
+# HomeWork 4 Lesson 1
 
 За допомогою промта запитуємо у користувача, що він хоче зробити (add, sub, mult, div).
 
