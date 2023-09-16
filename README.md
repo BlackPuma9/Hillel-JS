@@ -1,4 +1,4 @@
-# Homework 1 Task 1  
+# Homework 1 Lesson 1
 За допомогою prompt запитати як звуть користувача.
 
 За допомогою alert вивести Hello, Alex! How are you?»
