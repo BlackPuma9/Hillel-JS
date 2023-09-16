@@ -40,7 +40,7 @@ switch (action) {
         div(numberOne, numberTwo)
         break
     default:
-        console.log('Please choose correct action in order to process with code')
+        console.log('Please choose correct action in order to proceed')
 }
 
 // add(numberOne, numberTwo)
