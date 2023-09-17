@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Task 1
 let admin
