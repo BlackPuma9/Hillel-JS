@@ -1,41 +1,21 @@
-'use strict';
+'use strict'
 
-const action = prompt("Choose one of the following action: add, sub, mult, div. Make sure you type same as mentioned")
-let numberOne = Number(prompt("Enter first number"))
-let numberTwo = Number(prompt("Enter second number"))
-
-function add() {
-    let sum = numberOne + numberTwo
-    console.log(`Результат: ${numberOne} + ${numberTwo} = ${sum}`)
-}
-
-function sub() {
-    let subtraction = numberOne - numberTwo
-    console.log(`Результат: ${numberOne} - ${numberTwo} = ${subtraction}`)
-}
-
-function mult() {
-    let multiply = numberOne * numberTwo
-    console.log(`Результат: ${numberOne} * ${numberTwo} = ${multiply}`)
-}
-
-function div() {
-    let divide = numberOne / numberTwo
-    console.log(`Результат: ${numberOne} / ${numberTwo} = ${divide}`)
-}
+const action = prompt('Choose one of the following action: add, sub, mult, div. Make sure you type same as mentioned')
+const numberOne = Number(prompt('Enter first number'))
+const numberTwo = Number(prompt('Enter second number'))
 
 switch (action) {
     case 'add':
-        add(numberOne, numberTwo)
+        console.log(`Результат: ${numberOne} + ${numberTwo} = ${numberOne + numberTwo}`)
         break
     case 'sub':
-        sub(numberOne, numberTwo)
+        console.log(`Результат: ${numberOne} - ${numberTwo} = ${numberOne - numberTwo}`)
         break
     case 'mult':
-        mult(numberOne, numberTwo)
+        console.log(`Результат: ${numberOne} * ${numberTwo} = ${numberOne * numberTwo}`)
         break
     case 'div':
-        div(numberOne, numberTwo)
+        console.log(`Результат: ${numberOne} / ${numberTwo} = ${numberOne / numberTwo}`)
         break
     default:
         console.log('Please choose correct action in order to proceed')
