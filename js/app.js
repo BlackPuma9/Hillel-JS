@@ -1,29 +1,35 @@
-'use strict';
+'use strict'
 
-let numberOne = Number(prompt("Enter first number"))
-let numberTwo = Number(prompt("Enter second number"))
+const numberOne = Number(prompt("Enter first number"))
+const numberTwo = Number(prompt("Enter second number"))
 
 // add, sub, mult, div
 
-function add() {
-    let sum = numberOne + numberTwo
-    console.log(`Результат: ${numberOne} + ${numberTwo} = ${sum}`)
-}
 
-function sub() {
-    let subtraction = numberOne - numberTwo
-    console.log(`Результат: ${numberOne} - ${numberTwo} = ${subtraction}`)
-}
+const add = (num1, num2) => console.log(`Результат: ${num1} + ${num2} = ${num1 + num2}`)
 
-function mult() {
-    let multiply = numberOne * numberTwo
-    console.log(`Результат: ${numberOne} * ${numberTwo} = ${multiply}`)
-}
+// function add(num1, num2) {
+//     console.log(`Результат: ${num1} + ${num2} = ${num1 + num2}`)
+// }
 
-function div() {
-    let divide = numberOne / numberTwo
-    console.log(`Результат: ${numberOne} / ${numberTwo} = ${divide}`)
-}
+const sub = (num1, num2) => console.log(`Результат: ${num1} - ${num2} = ${num1 - num2}`)
+
+
+// function sub(num1, num2) {
+//     console.log(`Результат: ${num1} - ${num2} = ${num1 - num2}`)
+// }
+
+const mult = (num1, num2) => console.log(`Результат: ${num1} * ${num2} = ${num1 * num2}`)
+
+// function mult(num1, num2) {
+//     console.log(`Результат: ${num1} * ${num2} = ${num1 * num2}`)
+// }
+
+const div = (num1, num2) => console.log(`Результат: ${num1} / ${num2} = ${num1 / num2}`)
+
+// function div(num1, num2) {
+//     console.log(`Результат: ${num1} / ${num2} = ${num1 / num2}`)
+// }
 
 add(numberOne, numberTwo)
 sub(numberOne, numberTwo)
