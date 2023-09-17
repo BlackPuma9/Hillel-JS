@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const name = prompt('What is your name?')
 
