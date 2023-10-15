@@ -1,6 +1,6 @@
 'use strict'
 
-const padString = function (str, num, symbol = '*', fromStart = true) {
+const padString = (str, num, symbol = '*', fromStart = true) => {
     if (typeof str !== 'string') {
         return 'First argument should be string'
     }
@@ -11,30 +11,21 @@ const padString = function (str, num, symbol = '*', fromStart = true) {
         return 'Third argument should be string'
     }
     if (symbol.length > 1) {
-        return 'Third argument should be one symbol'
+        return 'Third argument should be single symbol'
     }
     if (typeof fromStart !== 'boolean') {
         return 'Last argument should be boolean'
     }
 
-    let result = str.split('')
-    const rounds = num - result.length
+    const result = str.split('')
+    const rounds = str.length >= num ? 1 : num - result.length
 
-    if (str.length >= num) {
-        buildResult(fromStart, symbol, result)
-    } else {
-        for (let i = 1; i <= rounds; i++) {
-            buildResult(fromStart, symbol, result)
-        }
+    for (let i = 1; i <= rounds; i++) {
+        fromStart ? result.push(symbol) : result.unshift(symbol)
     }
 
     return result.slice(0, num).join('')
 }
 
-function buildResult(side, symbol, argOne) {
-    side ? argOne.push(symbol) : argOne.unshift(symbol)
-}
-
-console.log(padString('hello', 2, '*', false))
-// console.log(padString('hello', 2, '*', true))
-// console.log(padString('hello', 18))
+console.log(padString('hello', 2))
+console.log(padString('hello', 18, '7', false))
