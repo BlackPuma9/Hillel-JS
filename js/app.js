@@ -4,11 +4,14 @@ const padString = function (str, num, symbol, side = true) {
     if (arguments.length < 4 || arguments.length > 4) {
         console.log('4 parameters requested')
     }
-    if (typeof arguments[0] !== 'string' || typeof arguments[2] !== 'string') {
-        return 'First and third argument should be string'
+    if (typeof arguments[0] !== 'string') {
+        return 'First argument should be string'
     }
     if (typeof arguments[1] !== 'number') {
         return 'Second argument should be number'
+    }
+    if (typeof arguments[2] !== 'string') {
+        console.log('Third argument should be string')
     }
     if (typeof arguments[3] !== 'boolean') {
         console.log('Last argument should be boolean')
@@ -31,4 +34,4 @@ function booleanValidation(side, symbol, argOne) {
     return side === true ? argOne.push(symbol) : argOne.unshift(symbol)
 }
 
-console.log(padString('hello', '-', '*', false, 8))
+console.log(padString('hello', 8, '*'))
