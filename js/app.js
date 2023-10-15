@@ -17,8 +17,12 @@ const padString = (str, num, symbol = '*', fromStart = true) => {
         return 'Last argument should be boolean'
     }
 
+    if (str.length > num) {
+        return str.substring(0, num)
+    }
+
     const result = str.split('')
-    const rounds = str.length >= num ? 1 : num - result.length
+    const rounds = num - result.length
 
     for (let i = 1; i <= rounds; i++) {
         fromStart ? result.push(symbol) : result.unshift(symbol)
@@ -27,5 +31,5 @@ const padString = (str, num, symbol = '*', fromStart = true) => {
     return result.slice(0, num).join('')
 }
 
-console.log(padString('hello', 2))
-console.log(padString('hello', 18, '7', false))
+console.log(padString('hello', 8, ''))
+console.log(padString('hello', 18, '#', false))
