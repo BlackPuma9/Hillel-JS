@@ -11,10 +11,7 @@ const positiveArr = arr.filter((num) => num > -1)
 const length = positiveArr.length
 
 /*  Суму позитивних елементів */
-let sum = 0
-positiveArr.forEach((element) => {
-    sum += element
-})
+const sum = positiveArr.reduce((prev, current) => prev + current)
 
 console.log(`Amount of positive elements: ${length}`)
 console.log(`Sum of positive elements: ${sum}`)
@@ -58,7 +55,6 @@ odd.forEach((element) => {
 console.log(`Sum of odd positive elements: ${negativeSum}`)
 
 /*   Знайти добуток позитивних елементів.*/
-
 let product = 1
 
 positiveArr.forEach((element) => {
@@ -68,7 +64,6 @@ positiveArr.forEach((element) => {
 console.log(`Product of positive array elements: ${product}`)
 
 /*   Знайти найбільший серед елементів масиву, решту обнулити.*/
-
 arr.map((number, index) => {
     number !== maxValue ? (arr[index] = 0) : (arr[index] = maxValue)
 })
