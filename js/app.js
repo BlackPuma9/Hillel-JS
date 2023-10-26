@@ -57,25 +57,19 @@ let users = [
     },
 ]
 
-const arrPhones = []
-const arrBalance = []
+const newUsers = users.map((user) => ({
+    ...user,
+    balance: Number(user.balance.replace(/[^0-9.-]+/g, '')),
+}))
 
-for (let i = 0; i < users.length; i++) {
-    let changingBalance = users[i].balance
-        .split('$')
-        .join('')
-        .split(',')
-        .join('')
-    arrBalance.push(changingBalance)
+const userWithBalance = newUsers
+    .filter((user) => user.balance > 2000)
+    .map((user) => user.phone)
 
-    if (changingBalance > 2000) {
-        arrPhones.push(users[i].phone)
-    }
-}
+console.log(userWithBalance)
 
-console.log(arrPhones)
+const sum = newUsers
+    .map((user) => user.balance)
+    .reduce((prev, current) => prev + current)
 
-const numberArray = arrBalance.map(Number)
-let sum = 0
-numberArray.map((num) => (sum += num))
 console.log(sum)
