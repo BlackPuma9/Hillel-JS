@@ -4,6 +4,11 @@ const createTable = () => {
     const table = document.createElement('table')
     const tbody = document.createElement('tbody')
     let counter = 1
+
+    table.setAttribute('border', '2px')
+    table.setAttribute('width', '50%')
+    table.setAttribute('style', 'margin: 0 auto')
+
     for (let r = 0; r < 10; r++) {
         const tr = document.createElement('tr')
         for (let d = 0; d < 10; d++) {
