@@ -4,7 +4,7 @@ const generateList = (array) => {
     const ul = document.createElement('ul')
 
     for (let i = 0; i < array.length; i++) {
-        let li = document.createElement('li')
+        const li = document.createElement('li')
 
         if (Array.isArray(array[i])) {
             li.appendChild(generateList(array[i]))
