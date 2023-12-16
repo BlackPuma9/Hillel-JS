@@ -11,12 +11,20 @@
             e.preventDefault()
             e.stopPropagation()
             const { target } = e
-            const data = Array.from(
-                target.querySelectorAll('input, textarea')
-            ).reduce((acc, item) => {
-                acc[item.name] = item.value
-                return acc
-            }, {})
+
+            const data = {}
+            Array.from(target.querySelectorAll('input')).forEach(
+                ({ name, value }) => {
+                    data[name] = value
+                }
+            )
+
+            // const data = Array.from(
+            //     target.querySelectorAll('input, textarea')
+            // ).reduce((acc, item) => {
+            //     acc[item.name] = item.value
+            //     return acc
+            // }, {})
 
             const savedData = model.save(data)
 
@@ -80,29 +88,15 @@
 
         createTemplate(data) {
             const wrapper = document.createElement('div')
-            wrapper.className = 'col-4'
+            wrapper.className = 'col-12'
             wrapper.setAttribute('data-todo-item', data.id)
 
-            const taskWrapper = document.createElement('div')
-            taskWrapper.className = 'taskWrapper'
-            wrapper.appendChild(taskWrapper)
-
-            const taskHeading = document.createElement('div')
-            taskHeading.className = 'taskHeading'
-            taskHeading.innerHTML = data.title
-            taskWrapper.appendChild(taskHeading)
-
-            const taskDescription = document.createElement('div')
-            taskDescription.className = 'taskDescription'
-            taskDescription.innerHTML = data.description
-            taskWrapper.appendChild(taskDescription)
-
-            const deleteBtn = document.createElement('button')
-            deleteBtn.className = 'btn btn-sm btn-danger'
-            deleteBtn.innerText = 'X'
-            deleteBtn.setAttribute('data-remove-btn', '')
-            taskWrapper.appendChild(deleteBtn)
-
+            wrapper.innerHTML = `
+             <div class="taskWrapper">
+                  <div class="taskHeading">${data.title}</div>
+                  <button class="btn btn-close" data-remove-btn aria-label='Close'></button>
+             </div>
+            `
             return wrapper
         },
 
