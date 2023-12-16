@@ -1,12 +1,7 @@
 'use strict'
 ;(function () {
-    const CONSTANTS = {
-        todoFormSelector: '#todoForm',
-        todoContainerSelector: '#todoItems',
-        dataKey: 'formData',
-    }
-
     const controller = {
+        todoFormSelector: '#todoForm',
         formHandler(e) {
             e.preventDefault()
             e.stopPropagation()
@@ -66,14 +61,12 @@
 
         loadedHandler() {
             model.initId()
-            const form = document.querySelector(CONSTANTS.todoFormSelector)
+            const form = document.querySelector(this.todoFormSelector)
             form.addEventListener('submit', this.formHandler.bind(this))
             model.get().forEach((item) => {
                 view.renderElement(item)
             })
-            const todoContainer = document.querySelector(
-                CONSTANTS.todoContainerSelector
-            )
+            const todoContainer = document.querySelector('#todoItems')
             todoContainer.addEventListener(
                 'click',
                 this.removeTodoItemHandler.bind(this)
@@ -93,6 +86,7 @@
     }
 
     const view = {
+        todoFormSelector: '#todoForm',
         renderElement(data) {
             const template = this.createTemplate(data)
             this.renderTodoItem(template)
@@ -126,7 +120,7 @@
         },
 
         resetForm() {
-            document.querySelector(CONSTANTS.todoFormSelector).reset()
+            document.querySelector(this.todoFormSelector).reset()
         },
 
         removeElement(todoId) {
@@ -139,6 +133,7 @@
     }
 
     const model = {
+        dataKey: 'formData',
         currentId: 0,
         save(data) {
             ++this.currentId
@@ -148,10 +143,7 @@
             savedData.push(dataCopy)
 
             try {
-                localStorage.setItem(
-                    CONSTANTS.dataKey,
-                    JSON.stringify(savedData)
-                )
+                localStorage.setItem(this.dataKey, JSON.stringify(savedData))
                 return this.get().at(-1)
             } catch (e) {
                 return false
@@ -159,7 +151,7 @@
         },
 
         get() {
-            const saveData = JSON.parse(localStorage.getItem(CONSTANTS.dataKey))
+            const saveData = JSON.parse(localStorage.getItem(this.dataKey))
             return saveData ? saveData : []
         },
 
@@ -171,7 +163,7 @@
             const [removedElement] = savedElements.splice(index, 1)
             try {
                 localStorage.setItem(
-                    CONSTANTS.dataKey,
+                    this.dataKey,
                     JSON.stringify(savedElements)
                 )
                 return removedElement
@@ -187,13 +179,13 @@
                 if (item.id === todoId && checked === true) {
                     item['checked'] = 'text-decoration-line-through'
                     localStorage.setItem(
-                        CONSTANTS.dataKey,
+                        this.dataKey,
                         JSON.stringify(savedElements)
                     )
                 } else if (item.id === todoId && checked === false) {
                     delete item['checked']
                     localStorage.setItem(
-                        CONSTANTS.dataKey,
+                        this.dataKey,
                         JSON.stringify(savedElements)
                     )
                 } else {
