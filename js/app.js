@@ -134,16 +134,15 @@
 
     const model = {
         dataKey: 'formData',
-        currentId: 0,
+        currentId: 1,
         save(data) {
-            ++this.currentId
             const dataCopy = { id: this.currentId, ...data }
-
             const savedData = this.get()
             savedData.push(dataCopy)
 
             try {
                 localStorage.setItem(this.dataKey, JSON.stringify(savedData))
+                this.currentId += 1
                 return this.get().at(-1)
             } catch (e) {
                 return false
