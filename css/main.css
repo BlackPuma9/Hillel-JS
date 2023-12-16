@@ -4,6 +4,11 @@
     border-color: #285e8e;
 }
 
+.form-check-input {
+    margin-top: 0;
+    margin-right: 10px;
+}
+
 .taskWrapper {
     background-color: #ccc;
     border-radius: 10px;

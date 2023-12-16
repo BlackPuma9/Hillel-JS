@@ -19,13 +19,6 @@
                 }
             )
 
-            // const data = Array.from(
-            //     target.querySelectorAll('input, textarea')
-            // ).reduce((acc, item) => {
-            //     acc[item.name] = item.value
-            //     return acc
-            // }, {})
-
             const savedData = model.save(data)
 
             if (savedData) {
@@ -50,6 +43,27 @@
             alert('Can not remove element' + removedElement.title)
         },
 
+        checkedInput: (e) => {
+            e.stopPropagation()
+            const { target } = e
+            const { checked } = e.target
+            if (!target.hasAttribute('data-check-input')) return
+            const lineThoughElement = target
+                .closest('.taskWrapper')
+                .querySelector('.taskHeading')
+            const todoId = +target
+                .closest('[data-todo-item]')
+                .getAttribute('data-todo-item')
+            model.addlineThoughElementById(todoId, checked)
+            view.addLineThough(lineThoughElement)
+            // if (addlineThoughElement) {
+            //     view.addLineThough(lineThoughElement)
+            //     return
+            // }
+
+            // alert('No element to decorate')
+        },
+
         loadedHandler() {
             model.initId()
             const form = document.querySelector(CONSTANTS.todoFormSelector)
@@ -63,6 +77,10 @@
             todoContainer.addEventListener(
                 'click',
                 this.removeTodoItemHandler.bind(this)
+            )
+            todoContainer.addEventListener(
+                'click',
+                this.checkedInput.bind(this)
             )
         },
 
@@ -93,10 +111,17 @@
 
             wrapper.innerHTML = `
              <div class="taskWrapper">
-                  <div class="taskHeading">${data.title}</div>
-                  <button class="btn btn-close" data-remove-btn aria-label='Close'></button>
+                 <div class='d-flex align-items-center mt-0'>
+                      <input class="form-check-input" type="checkbox" data-check-input>
+                      <div class="taskHeading ${data.checked}">${data.title}</div>
+                 </div>
+                      <button class="btn btn-close" data-remove-btn aria-label='Close'></button>
              </div>
             `
+            if (data.checked === 'text-decoration-line-through') {
+                const tick = wrapper.querySelector('[data-check-input]')
+                tick.setAttribute('checked', '')
+            }
             return wrapper
         },
 
@@ -106,6 +131,10 @@
 
         removeElement(todoId) {
             document.querySelector(`[data-todo-item="${todoId}"]`).remove()
+        },
+
+        addLineThough(lineThoughElement) {
+            lineThoughElement.classList.toggle('text-decoration-line-through')
         },
     }
 
@@ -150,6 +179,27 @@
                 console.log('Can not remove element', removedElement)
                 return false
             }
+        },
+
+        addlineThoughElementById(todoId, checked) {
+            const savedElements = this.get()
+            savedElements.forEach((item) => {
+                if (item.id === todoId && checked === true) {
+                    item['checked'] = 'text-decoration-line-through'
+                    localStorage.setItem(
+                        CONSTANTS.dataKey,
+                        JSON.stringify(savedElements)
+                    )
+                } else if (item.id === todoId && checked === false) {
+                    delete item['checked']
+                    localStorage.setItem(
+                        CONSTANTS.dataKey,
+                        JSON.stringify(savedElements)
+                    )
+                } else {
+                }
+            })
+            console.log(savedElements)
         },
 
         initId() {
