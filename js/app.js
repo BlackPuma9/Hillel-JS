@@ -49,14 +49,8 @@
             const todoId = +target
                 .closest('[data-todo-item]')
                 .getAttribute('data-todo-item')
-            model.addlineThoughElementById(todoId, checked)
+            model.addLineThoughElementById(todoId, checked)
             view.addLineThough(lineThoughElement)
-            // if (addlineThoughElement) {
-            //     view.addLineThough(lineThoughElement)
-            //     return
-            // }
-
-            // alert('No element to decorate')
         },
 
         loadedHandler() {
@@ -107,12 +101,14 @@
              <div class="taskWrapper">
                  <div class='d-flex align-items-center mt-0'>
                       <input class="form-check-input" type="checkbox" data-check-input>
-                      <div class="taskHeading ${data.checked}">${data.title}</div>
+                      <div class="taskHeading ${
+                          data.checked ? 'text-decoration-line-through' : ''
+                      }">${data.title}</div>
                  </div>
                       <button class="btn btn-close" data-remove-btn aria-label='Close'></button>
              </div>
             `
-            if (data.checked === 'text-decoration-line-through') {
+            if (data.checked) {
                 const tick = wrapper.querySelector('[data-check-input]')
                 tick.setAttribute('checked', '')
             }
@@ -136,7 +132,7 @@
         dataKey: 'formData',
         currentId: 1,
         save(data) {
-            const dataCopy = { id: this.currentId, ...data }
+            const dataCopy = { id: this.currentId, checked: false, ...data }
             const savedData = this.get()
             savedData.push(dataCopy)
 
@@ -172,25 +168,24 @@
             }
         },
 
-        addlineThoughElementById(todoId, checked) {
+        addLineThoughElementById(todoId, checked) {
             const savedElements = this.get()
             savedElements.forEach((item) => {
                 if (item.id === todoId && checked === true) {
-                    item['checked'] = 'text-decoration-line-through'
+                    item['checked'] = true
                     localStorage.setItem(
                         this.dataKey,
                         JSON.stringify(savedElements)
                     )
-                } else if (item.id === todoId && checked === false) {
+                }
+                if (item.id === todoId && checked === false) {
                     delete item['checked']
                     localStorage.setItem(
                         this.dataKey,
                         JSON.stringify(savedElements)
                     )
-                } else {
                 }
             })
-            console.log(savedElements)
         },
 
         initId() {
