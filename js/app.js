@@ -13,7 +13,6 @@
                     data[name] = value
                 }
             )
-
             const savedData = model.save(data)
 
             if (savedData) {
@@ -29,13 +28,9 @@
             const todoId = +target
                 .closest('[data-todo-item]')
                 .getAttribute('data-todo-item')
-            const removedElement = model.removeElementById(todoId)
+            model.removeElementById(todoId)
 
-            if (removedElement) {
-                view.removeElement(todoId)
-                return
-            }
-            alert('Can not remove element' + removedElement.title)
+            view.removeElement(todoId)
         },
 
         checkedInput: (e) => {
@@ -63,7 +58,7 @@
             model.initId()
             const form = document.querySelector(this.todoFormSelector)
             form.addEventListener('submit', this.formHandler.bind(this))
-            model.get().forEach((item) => {
+            model.getAll().forEach((item) => {
                 view.renderElement(item)
             })
             const todoContainer = document.querySelector('#todoItems')
@@ -139,43 +134,27 @@
         currentId: 1,
         save(data) {
             const dataCopy = { id: this.currentId, checked: false, ...data }
-            const savedData = this.get()
+            const savedData = this.getAll()
             savedData.push(dataCopy)
 
-            try {
-                localStorage.setItem(this.dataKey, JSON.stringify(savedData))
-                this.currentId += 1
-                return this.get().at(-1)
-            } catch (e) {
-                return false
-            }
+            localStorage.setItem(this.dataKey, JSON.stringify(savedData))
+            this.currentId += 1
+            return this.getAll().at(-1)
         },
 
-        get() {
+        getAll() {
             const saveData = JSON.parse(localStorage.getItem(this.dataKey))
             return saveData ? saveData : []
         },
 
         removeElementById(todoId) {
-            const savedElements = this.get()
-            const index = savedElements.findIndex(({ id }) => {
-                return todoId === id
-            })
-            const [removedElement] = savedElements.splice(index, 1)
-            try {
-                localStorage.setItem(
-                    this.dataKey,
-                    JSON.stringify(savedElements)
-                )
-                return removedElement
-            } catch (e) {
-                console.log('Can not remove element', removedElement)
-                return false
-            }
+            const data = this.getAll().filter((item) => item.id !== todoId)
+
+            localStorage.setItem(this.dataKey, JSON.stringify(data))
         },
 
         addLineThoughElementById(todoId, checked) {
-            const savedElements = this.get()
+            const savedElements = this.getAll()
 
             try {
                 savedElements.forEach((item) => {
@@ -202,7 +181,7 @@
         },
 
         initId() {
-            const items = this.get()
+            const items = this.getAll()
             if (!items.length) return
             this.currentId = +items.at(-1).id
         },
