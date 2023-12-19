@@ -49,8 +49,14 @@
             const todoId = +target
                 .closest('[data-todo-item]')
                 .getAttribute('data-todo-item')
-            model.addLineThoughElementById(todoId, checked)
-            view.addLineThough(lineThoughElement)
+            const lineThough = model.addLineThoughElementById(todoId, checked)
+
+            if (lineThough) {
+                view.addLineThough(lineThoughElement)
+                return
+            }
+
+            alert('Can not perform addLineThoughElementById function')
         },
 
         loadedHandler() {
@@ -170,22 +176,29 @@
 
         addLineThoughElementById(todoId, checked) {
             const savedElements = this.get()
-            savedElements.forEach((item) => {
-                if (item.id === todoId && checked === true) {
-                    item['checked'] = true
-                    localStorage.setItem(
-                        this.dataKey,
-                        JSON.stringify(savedElements)
-                    )
-                }
-                if (item.id === todoId && checked === false) {
-                    delete item['checked']
-                    localStorage.setItem(
-                        this.dataKey,
-                        JSON.stringify(savedElements)
-                    )
-                }
-            })
+
+            try {
+                savedElements.forEach((item) => {
+                    if (item.id === todoId && checked === true) {
+                        item['checked'] = true
+                        localStorage.setItem(
+                            this.dataKey,
+                            JSON.stringify(savedElements)
+                        )
+                    }
+                    if (item.id === todoId && checked === false) {
+                        delete item['checked']
+                        localStorage.setItem(
+                            this.dataKey,
+                            JSON.stringify(savedElements)
+                        )
+                    }
+                })
+                return true
+            } catch (e) {
+                console.log('Not able to update line though in element')
+                return false
+            }
         },
 
         initId() {
