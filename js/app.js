@@ -15,10 +15,11 @@
             )
             const savedData = model.save(data)
 
-            if (savedData) {
-                view.renderElement(savedData)
-                view.resetForm()
+            if (!savedData) {
+                return
             }
+            view.renderElement(savedData)
+            view.resetForm()
         },
 
         removeTodoItemHandler: (e) => {
