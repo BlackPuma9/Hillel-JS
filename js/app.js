@@ -1,7 +1,8 @@
 'use strict'
 ;(function () {
+    const todoFormSelector = '#todoForm'
+
     const controller = {
-        todoFormSelector: '#todoForm',
         formHandler(e) {
             e.preventDefault()
             e.stopPropagation()
@@ -58,9 +59,9 @@
 
         loadedHandler() {
             model.initId()
-            const form = document.querySelector(this.todoFormSelector)
+            const form = document.querySelector(todoFormSelector)
             form.addEventListener('submit', this.formHandler.bind(this))
-            model.getAll().forEach((item) => {
+            model.all.forEach((item) => {
                 view.renderElement(item)
             })
             const todoContainer = document.querySelector('#todoItems')
@@ -83,7 +84,6 @@
     }
 
     const view = {
-        todoFormSelector: '#todoForm',
         renderElement(data) {
             const template = this.createTemplate(data)
             this.renderTodoItem(template)
@@ -119,7 +119,7 @@
         },
 
         resetForm() {
-            document.querySelector(this.todoFormSelector).reset()
+            document.querySelector(todoFormSelector).reset()
         },
 
         removeElement(todoId) {
@@ -132,31 +132,40 @@
     }
 
     const model = {
-        dataKey: 'formData',
+        get dataKey() {
+            return 'formData'
+        },
         currentId: 1,
+        get nextId() {
+            return this.currentId
+        },
+        set nextId(id) {
+            this.currentId = id
+        },
+
         save(data) {
-            const dataCopy = { id: this.currentId, checked: false, ...data }
-            const savedData = this.getAll()
+            const dataCopy = { id: this.nextId, checked: false, ...data }
+            const savedData = this.all
             savedData.push(dataCopy)
 
             localStorage.setItem(this.dataKey, JSON.stringify(savedData))
-            this.currentId += 1
-            return this.getAll().at(-1)
+            this.nextId += 1
+            return this.all.at(-1)
         },
 
-        getAll() {
+        get all() {
             const saveData = JSON.parse(localStorage.getItem(this.dataKey))
             return saveData ? saveData : []
         },
 
         removeElementById(todoId) {
-            const data = this.getAll().filter((item) => item.id !== todoId)
+            const data = this.all.filter((item) => item.id !== todoId)
 
             localStorage.setItem(this.dataKey, JSON.stringify(data))
         },
 
         addLineThoughElementById(todoId, checked) {
-            const savedElements = this.getAll()
+            const savedElements = this.all
 
             try {
                 savedElements.forEach((item) => {
@@ -183,9 +192,9 @@
         },
 
         initId() {
-            const items = this.getAll()
+            const items = this.all
             if (!items.length) return
-            this.currentId = +items.at(-1).id
+            this.nextId = items.at(-1).id + 1
         },
     }
     controller.init()
