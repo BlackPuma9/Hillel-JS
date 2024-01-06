@@ -55,16 +55,26 @@ Student.prototype.getSummary = function () {
 let student1 = new Student('Yul', 'Yav', 2000, [100, 90])
 let student2 = new Student('Jan', 'Janko', 1994, [40, 60])
 
-console.log(student1.getAge())
-console.log(student1.getAvgGrade())
+student1.absent()
 student1.present()
 student1.absent()
-console.log(student1.getAvgAttendance())
-console.log(student1.getSummary())
+student1.present()
 
-console.log(student2.getAge())
-console.log(student2.getAvgGrade())
+student2.absent()
 student2.present()
 student2.absent()
-console.log(student2.getAvgAttendance())
-console.log(student2.getSummary())
+student2.present()
+
+console.log(
+    `Student1 Name: ${student1.name}, Surname: ${student1.surname}, 
+    Age: ${student1.getAge()}, Average Grade: ${student1.getAvgGrade()}, 
+    Average Attendance: ${student1.getAvgAttendance()}, 
+    Summary: ${student1.getSummary()}`
+)
+
+console.log(
+    `Student2 Name: ${student2.name}, Surname: ${student2.surname}, 
+    Age: ${student2.getAge()}, Average Grade: ${student2.getAvgGrade()}, 
+    Average Attendance: ${student2.getAvgAttendance()}, 
+    Summary: ${student2.getSummary()}`
+)
