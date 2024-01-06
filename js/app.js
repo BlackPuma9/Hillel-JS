@@ -21,7 +21,19 @@ Student.prototype.getAvgGrade = function () {
     )
 }
 
+Student.prototype.present = function () {
+    if (this.attendance.length >= 25) {
+        throw new Error('Cannot register more than 25 attendance records')
+    }
+    this.attendance.push(true)
+}
+
+Student.prototype.absent = function () {
+    if (this.attendance.length >= 25) {
+        throw new Error('Cannot register more than 25 attendance records')
+    }
+    this.attendance.push(false)
+}
+
 let student1 = new Student('Yul', 'Yav', 2000, [100, 90])
 let student2 = new Student('Jan', 'Janko', 1994, [100, 90])
-console.log(student1.getAvgGrade())
-console.log(student2.getAge())
