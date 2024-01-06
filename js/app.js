@@ -23,24 +23,30 @@ function Car(brand, model, year, licencePlate) {
 Car.prototype.assignOwner = function (person) {
     return person.age > 18
         ? (this.owner = person)
-        : console.log('The person`s age must be over 18.')
+        : console.log(`The person\`s ${person.name} age must be over 18.`)
 }
 
 Car.prototype.showInfo = function () {
     if (this.owner) {
         console.log(this.owner.showInfo())
+        console.log(
+            `Brand: ${this.brand}, Model: ${this.model}, Year: ${this.year}, Licence Plate: ${this.licencePlate}, Owner: ${this.owner.name}`
+        )
+    } else {
+        console.log(
+            `Brand: ${this.brand}, Model: ${this.model}, Year: ${this.year}, Licence Plate: ${this.licencePlate}, No owner provided`
+        )
     }
-    console.log(
-        `Brand: ${this.brand}, Model: ${this.model}, Year: ${this.year}, Licence Plate: ${this.licencePlate}`
-    )
 }
 
 let car1 = new Car('BMD', 'X5', 2023, 'AA2065XP')
 let car2 = new Car('Porshe', 'MK', 2024, 'AA2015SV')
+
+console.log(person1)
+console.log(person2)
 car1.assignOwner(person1)
+car2.assignOwner(person2)
 console.log(car1)
 console.log(car2)
-car1.assignOwner(person1)
 car1.showInfo()
-car2.assignOwner(person2)
 car2.showInfo()
