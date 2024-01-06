@@ -5,11 +5,11 @@ function Student(name, surname, birthYear, grades) {
     this.surname = surname
     this.birthYear = birthYear
     this.grades = grades
-    this.attendance = []
+    this.attendance = Array(25).fill('')
 }
 
 Student.prototype.getAge = function () {
-    return 2024 - this.birthYear
+    return new Date().getFullYear() - this.birthYear
 }
 
 Student.prototype.getAvgGrade = function () {
@@ -22,23 +22,28 @@ Student.prototype.getAvgGrade = function () {
 }
 
 Student.prototype.present = function () {
-    if (this.attendance.length >= 25) {
+    if (this.attendance.length >= 25 && this.attendance[24] !== '') {
         throw new Error('Cannot register more than 25 attendance records')
     }
-    this.attendance.push(true)
+
+    let index = this.attendance.indexOf('')
+    this.attendance.splice(index, 1, true)
 }
 
 Student.prototype.absent = function () {
-    if (this.attendance.length >= 25) {
+    if (this.attendance.length >= 25 && this.attendance[24] !== '') {
         throw new Error('Cannot register more than 25 attendance records')
     }
-    this.attendance.push(false)
+
+    let index = this.attendance.indexOf('')
+    this.attendance.splice(index, 1, false)
 }
 
 Student.prototype.getAvgAttendance = function () {
     return (
-        this.attendance.reduce((sum, attendance) => sum + attendance, 0) /
-        this.attendance.length
+        (this.attendance.reduce((sum, attendance) => sum + attendance, 0) /
+            this.attendance.length) *
+        100
     )
 }
 
@@ -55,26 +60,32 @@ Student.prototype.getSummary = function () {
 let student1 = new Student('Yul', 'Yav', 2000, [100, 90])
 let student2 = new Student('Jan', 'Janko', 1994, [40, 60])
 
-student1.absent()
+for (let i = 1; i <= 12; i++) {
+    student1.present()
+    student1.absent()
+}
 student1.present()
-student1.absent()
-student1.present()
+// console.log(student1.attendance)
+// student1.present() //If you uncomment this code it would be 25th value in attendance array and should show an error
 
-student2.absent()
+for (let i = 1; i <= 12; i++) {
+    student2.present()
+    student2.absent()
+}
 student2.present()
-student2.absent()
-student2.present()
+// console.log(student2.attendance)
+// student2.present()  //If you uncomment this code it would be 25th value in attendance array and should show an error
 
 console.log(
     `Student1 Name: ${student1.name}, Surname: ${student1.surname}, 
     Age: ${student1.getAge()}, Average Grade: ${student1.getAvgGrade()}, 
-    Average Attendance: ${student1.getAvgAttendance()}, 
+    Average Attendance: ${student1.getAvgAttendance()}%, 
     Summary: ${student1.getSummary()}`
 )
 
 console.log(
     `Student2 Name: ${student2.name}, Surname: ${student2.surname}, 
     Age: ${student2.getAge()}, Average Grade: ${student2.getAvgGrade()}, 
-    Average Attendance: ${student2.getAvgAttendance()}, 
+    Average Attendance: ${student2.getAvgAttendance()}%, 
     Summary: ${student2.getSummary()}`
 )
