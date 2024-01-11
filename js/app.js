@@ -6,6 +6,9 @@ function getStudentConstructor() {
         max: 100,
     }
 
+    function getFullName() {
+        return `${this.name} ${this.surname}`
+    }
     function getAge() {
         if (typeof this.birthYear !== 'number')
             throw new Error('Birthday should be a number')
@@ -13,15 +16,15 @@ function getStudentConstructor() {
     }
 
     function verifyAttendance(
-        markLessonAsViewed = true,
+        markLessonAsPresent = true,
         activeLesson,
         numberOfLessons
     ) {
-        if (typeof markLessonAsViewed !== 'boolean')
+        if (typeof markLessonAsPresent !== 'boolean')
             throw new Error('Mark Lesson should be a boolean')
         if (activeLesson >= numberOfLessons)
             return console.log('Not allowed to add more than 25 lessons')
-        this.attendance[activeLesson] = markLessonAsViewed
+        this.attendance[activeLesson] = markLessonAsPresent
     }
 
     function markGrade(grade, activeLesson) {
@@ -64,12 +67,7 @@ function getStudentConstructor() {
         return 'Rediska!'
     }
 
-    return function createStudentConstructor(
-        name,
-        surname,
-        birthYear,
-        numberOfLessons = 25
-    ) {
+    return function (name, surname, birthYear, numberOfLessons = 25) {
         let activeLesson = 0
         return {
             name,
@@ -79,6 +77,9 @@ function getStudentConstructor() {
             attendance: new Array(numberOfLessons),
             get activeLesson() {
                 return activeLesson
+            },
+            getFullName() {
+                return getFullName.call(this)
             },
             getAge() {
                 return getAge.call(this)
@@ -123,6 +124,7 @@ student1.present()
 student1.markGrade(90)
 student1.present()
 console.log(student1.getSummary())
+console.log(student1.getFullName())
 console.log(student1)
 
 student2.present()
@@ -132,4 +134,5 @@ student2.markGrade(90)
 student2.present()
 student2.absent()
 console.log(student2.getSummary())
+console.log(student2.getFullName())
 console.log(student2)
