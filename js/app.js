@@ -57,14 +57,14 @@ class Student {
         this.grades[currentLessonIndex] = grade
     }
 
-    getAvgGrade() {
+    get avgGrade() {
         return !this.grades.length
             ? 0
             : this.grades.reduce((sum, grade) => sum + grade, 0) /
                   this.grades.filter(Number).length
     }
 
-    getAvgAttendance() {
+    get avgAttendance() {
         return !this.attendance.length
             ? 0
             : (this.attendance.reduce(
@@ -75,11 +75,11 @@ class Student {
                   100
     }
 
-    getSummary() {
-        if (this.getAvgGrade() > 90 && this.getAvgAttendance() > 90) {
+    get summary() {
+        if (this.avgGrade > 90 && this.avgAttendance > 90) {
             return 'Nice! Well done'
         }
-        if (this.getAvgGrade() >= 60) {
+        if (this.avgGrade >= 60) {
             return 'Good, but can be better'
         }
         return 'Rediska!'
@@ -96,16 +96,23 @@ student1.markGrade(100)
 student1.present()
 student1.markGrade(90)
 student1.present()
-// student1.absent()
+student1.present()
+student1.markGrade(90)
+student1.absent()
 // student1.markGrade(90)
-console.log(student1.getSummary())
 console.log(student1)
+console.log(`Summary: ${student1.summary}`)
+console.log(`AvgGrade: ${student1.avgGrade}`)
+console.log(`AvgAttendance: ${student1.avgAttendance}`)
 
-student2.present()
-student2.markGrade(80)
-student2.present()
-student2.markGrade(90)
-student2.present()
-student2.absent()
-console.log(student2.getSummary())
-console.log(student2)
+// student2.present()
+// student2.markGrade(50)
+// student2.present()
+// student2.markGrade(10)
+// student2.present()
+// student2.absent()
+//
+// console.log(student2)
+// console.log(`Summary: ${student2.summary}`)
+// console.log(`AvgGrade: ${student2.avgGrade}`)
+// console.log(`AvgAttendance: ${student2.avgAttendance}`)
