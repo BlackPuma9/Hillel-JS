@@ -12,7 +12,17 @@ class Call {
         connecting: 'connecting',
         inProgress: 'in progress',
     }
-    static changeStatusHandlers = []
+
+    static EVENT_TYPES = {
+        changeStatus: 'changeStatus',
+        changeDuration: 'changeDuration',
+    }
+
+    static #handlers = {
+        changeStatus: [],
+        changeDuration: [],
+    }
+
     #timerId = null
     #duration = 0
     #startDate = null
@@ -31,7 +41,7 @@ class Call {
 
     #changeCallStatus(status) {
         this.#status = status
-        // this.#debug(this.changeStatusHandlers)
+        // this.#debug(this.#handlers)
 
         if (this.#status === Call.CALL_STATUSES.connecting) {
             this.#debug(Call.CALL_STATUSES.connecting)
@@ -87,6 +97,11 @@ class Call {
     #startCalcCallDuration() {
         this.#timerId = setInterval(() => {
             this.#duration += 1
+            Call.#handlers[Call.EVENT_TYPES.changeDuration].forEach(
+                (handler) => {
+                    handler(this.#duration)
+                }
+            )
         }, 1000)
     }
 
@@ -118,24 +133,28 @@ class Call {
     }
 
     #callEventHandlers(...data) {
-        Call.changeStatusHandlers.forEach((handler) => {
+        Call.#handlers[Call.EVENT_TYPES.changeStatus].forEach((handler) => {
             handler(...data)
         })
     }
 
-    static addChangeStatusListener(handler) {
+    static addChangeStatusListener(eventType, handler) {
         if (typeof handler !== 'function') return
-        Call.changeStatusHandlers.push(handler)
+        Call.#handlers[eventType].push(handler)
     }
 
-    static removeChangeStatusListener(handler) {
+    static removeChangeStatusListener(eventType, handler) {
         if (typeof handler !== 'function') return
-        if (this.changeStatusHandlers.length === 0) return
+        if (this.#handlers[eventType].length === 0) return
 
-        const handlerIndex = Call.changeStatusHandlers.findIndex((item) => {
+        const handlerIndex = Call.#handlers[eventType].findIndex((item) => {
             return handler === item
         })
 
-        Call.changeStatusHandlers.splice(handlerIndex, 1)
+        Call.#handlers[eventType].splice(handlerIndex, 1)
+    }
+
+    get duration() {
+        return this.#duration
     }
 }

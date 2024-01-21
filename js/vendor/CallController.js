@@ -3,7 +3,10 @@ class CallController {
     #callHistory = []
 
     constructor() {
-        this.#trackCallStatus()
+        Call.addChangeStatusListener(
+            Call.EVENT_TYPES.changeStatus,
+            this.#trackCallStatus
+        )
     }
     startCall(phoneNumber) {
         console.log('startCall start')

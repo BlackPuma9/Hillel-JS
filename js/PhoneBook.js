@@ -73,7 +73,14 @@ class PhoneBook {
     }
 
     #setEvents() {
-        Call.addChangeStatusListener(this.#trackCallStatus)
+        Call.addChangeStatusListener(
+            Call.EVENT_TYPES.changeStatus,
+            this.#trackCallStatus
+        )
+        Call.addChangeStatusListener(
+            Call.EVENT_TYPES.changeDuration,
+            this.#trackCallDuration
+        )
 
         document.addEventListener('DOMContentLoaded', () =>
             this.list(this.#contacts)
@@ -135,11 +142,15 @@ class PhoneBook {
 
     #trackCallStatus = (newStatus) => {
         if (
-            newStatus !== Call.CALL_STATUSES.rejected ||
-            newStatus !== Call.CALL_STATUSES.disconnect
-        )
-            return
-        this.#endCall()
+            newStatus === Call.CALL_STATUSES.rejected ||
+            newStatus === Call.CALL_STATUSES.disconnect
+        ) {
+            this.#endCall()
+        }
+    }
+
+    #trackCallDuration = (duration) => {
+        this.callDurationEl.innerHTML = '00:0' + duration
     }
 
     createContactTemplate(user) {
@@ -162,7 +173,6 @@ class PhoneBook {
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>`
-
         return wrapper
     }
 
