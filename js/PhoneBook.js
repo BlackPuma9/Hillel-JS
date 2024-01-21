@@ -73,6 +73,8 @@ class PhoneBook {
     }
 
     #setEvents() {
+        Call.addChangeStatusListener(this.#trackCallStatus)
+
         document.addEventListener('DOMContentLoaded', () =>
             this.list(this.#contacts)
         )
@@ -129,6 +131,15 @@ class PhoneBook {
         callController.endCall()
         this.#modalWindow.hide()
         this.callDurationEl.innerHTML = '00:00'
+    }
+
+    #trackCallStatus = (newStatus) => {
+        if (
+            newStatus !== Call.CALL_STATUSES.rejected ||
+            newStatus !== Call.CALL_STATUSES.disconnect
+        )
+            return
+        this.#endCall()
     }
 
     createContactTemplate(user) {
