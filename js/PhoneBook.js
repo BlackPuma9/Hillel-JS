@@ -89,8 +89,8 @@ class PhoneBook {
         const ul = document.querySelector('.list-group')
         ul.addEventListener('click', this.#removeHandler)
 
-        const input = document.querySelector('.form-control')
-        input.addEventListener('change', this.#searchHandler)
+        const searchBtn = document.querySelector('[data-search-btn]')
+        searchBtn.addEventListener('click', this.#searchHandler)
 
         ul.addEventListener('click', this.#callHandler)
 
@@ -116,7 +116,10 @@ class PhoneBook {
     }
 
     #searchHandler = (event) => {
-        this.search(event.target.value)
+        const { target: element } = event
+        this.search(
+            element.closest('.input-group').querySelector('input').value
+        )
     }
 
     #callHandler = (event) => {
