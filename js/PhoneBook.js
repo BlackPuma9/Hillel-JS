@@ -5,6 +5,7 @@ class PhoneBook {
         dataCallBtn: 'data-call-btn',
         dataEndCallBtn: 'data-end-call-btn',
         dataAddBtn: 'data-add-btn',
+        dataSaveContactBtn: 'data-save-contact-btn',
     }
     #contacts = []
     #modalWindow = null
@@ -42,9 +43,8 @@ class PhoneBook {
     }
 
     addContact(user) {
-        // validates user and adding that to this.#contacts
         if (user.id === null) return
-        this.#contacts.push(new User(user))
+        this.#contacts.unshift(new User(user))
     }
 
     call(contactId) {
@@ -77,6 +77,7 @@ class PhoneBook {
         const div = document.querySelector('.contacts__list')
         if (searchListResult.length !== 0) {
             this.list(searchListResult)
+            return
         }
         div.innerHTML = 'No results found. Try again'
     }
@@ -86,6 +87,34 @@ class PhoneBook {
         event.stopPropagation()
         this.#modalForm.show()
         element.closest('.input-group').querySelector('input').value = ''
+    }
+
+    #saveUser = (event) => {
+        const { target: element } = event
+        event.stopPropagation()
+        const name =
+            document.querySelector('#inputName').value +
+            ' ' +
+            document.querySelector('#inputSurname').value
+        const email = document.querySelector('#inputEmail4').value
+        const phone = document.querySelector('#inputPhone').value
+        const id = this.#contacts[this.#contacts.length - 1].id + 1
+        const infoWarning = document.getElementById('form-warning')
+        if (name.length === 0 || email.length === 0 || phone.length === 0) {
+            infoWarning.innerHTML = '*Inputs can not be empty'
+            return
+        }
+        const user = {
+            id,
+            name,
+            email,
+            phone,
+        }
+        this.addContact(user)
+        infoWarning.innerHTML = ''
+        this.#modalForm.hide()
+        document.getElementById('addContactForm').reset()
+        this.list(this.#contacts)
     }
 
     #setEvents() {
@@ -117,6 +146,10 @@ class PhoneBook {
         document
             .querySelector(`[${this.#ATTRS.dataAddBtn}]`)
             .addEventListener('click', this.openAddForm)
+
+        document
+            .querySelector(`[${this.#ATTRS.dataSaveContactBtn}]`)
+            .addEventListener('click', this.#saveUser)
     }
 
     #removeHandler = (event) => {
@@ -197,9 +230,6 @@ class PhoneBook {
                             </div>`
         return wrapper
     }
-
-    // your methods
-    // All event handlers should be a separate private methods
 }
 
 const phoneBook = new PhoneBook(users)
