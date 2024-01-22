@@ -211,7 +211,7 @@ class PhoneBook {
     createContactTemplate(user) {
         const wrapper = document.createElement('div')
         wrapper.className =
-            'list-group-item d-flex justify-content-between align-items-center'
+            'list-group-item d-flex justify-content-between align-items-center bg-secondary text-white'
         wrapper.setAttribute('data-user-id', user.id)
 
         wrapper.innerHTML = `<span class="contacts__contact">${user.name}</span>
