@@ -4,10 +4,11 @@ class PhoneBook {
         dataRemoveBtn: 'data-remove-btn',
         dataCallBtn: 'data-call-btn',
         dataEndCallBtn: 'data-end-call-btn',
+        dataAddBtn: 'data-add-btn',
     }
     #contacts = []
-    #searchedUsers = []
     #modalWindow = null
+    #modalForm = null
     callDurationEl = null
     constructor(users) {
         // Validate users
@@ -19,6 +20,12 @@ class PhoneBook {
             keyboard: false,
             backdrop: 'static',
         })
+
+        this.#modalForm = new bootstrap.Modal('#exampleModal2', {
+            keyboard: false,
+            backdrop: 'static',
+        })
+
         this.callDurationEl = this.#modalWindow._element.querySelector(
             '.modal-title .duration'
         )
@@ -53,7 +60,6 @@ class PhoneBook {
 
         callController.startCall(contact)
     }
-
     removeContact(contactId) {
         // will remove contact from this.#contacts
         this.#contacts = this.#contacts.filter((user) => user.id !== contactId)
@@ -68,8 +74,18 @@ class PhoneBook {
                 user.phone?.includes(searchStr) ||
                 user.email?.includes(searchStr)
         )
+        const div = document.querySelector('.contacts__list')
+        if (searchListResult.length !== 0) {
+            this.list(searchListResult)
+        }
+        div.innerHTML = 'No results found. Try again'
+    }
 
-        this.list(searchListResult)
+    openAddForm = (event) => {
+        const { target: element } = event
+        event.stopPropagation()
+        this.#modalForm.show()
+        element.closest('.input-group').querySelector('input').value = ''
     }
 
     #setEvents() {
@@ -94,10 +110,13 @@ class PhoneBook {
 
         ul.addEventListener('click', this.#callHandler)
 
-        const modal = this.#modalWindow._element.querySelector(
-            `[${this.#ATTRS.dataEndCallBtn}]`
-        )
-        modal.addEventListener('click', this.#endCall)
+        this.#modalWindow._element
+            .querySelector(`[${this.#ATTRS.dataEndCallBtn}]`)
+            .addEventListener('click', this.#endCall)
+
+        document
+            .querySelector(`[${this.#ATTRS.dataAddBtn}]`)
+            .addEventListener('click', this.openAddForm)
     }
 
     #removeHandler = (event) => {
