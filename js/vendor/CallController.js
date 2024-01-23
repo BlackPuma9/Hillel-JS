@@ -59,14 +59,3 @@ class CallController {
 }
 
 const callController = new CallController()
-//
-// callController.startCall('1111')
-// callController.endCallByCaller()
-// callController.startCall('1111')
-// callController.endCallByCaller()
-// callController.startCall('1111')
-// callController.endCallByCaller()
-// callController.startCall('1111')
-// callController.endCallByCaller()
-// console.log('----------------------------------')
-// callController.startCall('1111')

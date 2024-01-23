@@ -11,9 +11,8 @@ class PhoneBook {
     #modalWindow = null
     #modalForm = null
     callDurationEl = null
+
     constructor(users) {
-        // Validate users
-        // add users to contacts
         users.forEach((user) => {
             this.addContact(user)
         })
@@ -34,23 +33,29 @@ class PhoneBook {
     }
 
     list(contacts) {
-        const ul = document.querySelector('.list-group')
+        const ul = document.querySelector('#contacts')
         const li = contacts.map((contact) =>
             this.createContactTemplate(contact)
         )
         ul.innerHTML = ''
         ul.prepend(...li)
+
+        const ulHistory = document.querySelector('#history')
+        const liHistory = callController.callHistory.map((call) =>
+            this.createHistoryTemplate(call)
+        )
+        ulHistory.innerHTML = ''
+        ulHistory.prepend(...liHistory)
     }
 
     addContact(user) {
-        if (user.id === null) return
+        if (user.id === null || user?.phone === undefined) return
         this.#contacts.unshift(new User(user))
     }
 
     call(contactId) {
         // find contact in this.#contacts and make a call
         const contact = this.#contacts.find(({ id }) => id === contactId)
-
         this.#modalWindow._element.querySelector(
             '.modal-title .title'
         ).innerHTML = contact.name
@@ -67,7 +72,6 @@ class PhoneBook {
     }
 
     search(searchStr) {
-        // will search contact by: name, phone, email
         const searchListResult = this.#contacts.filter(
             (user) =>
                 user.name?.includes(searchStr) ||
@@ -131,6 +135,10 @@ class PhoneBook {
             this.list(this.#contacts)
         )
 
+        document
+            .querySelector('[data-end-call]')
+            .addEventListener('click', this.#endCallHandler)
+
         const ul = document.querySelector('.list-group')
         ul.addEventListener('click', this.#removeHandler)
 
@@ -150,6 +158,10 @@ class PhoneBook {
         document
             .querySelector(`[${this.#ATTRS.dataSaveContactBtn}]`)
             .addEventListener('click', this.#saveUser)
+    }
+
+    #endCallHandler = () => {
+        callController.endCallByCaller()
     }
 
     #removeHandler = (event) => {
@@ -193,6 +205,7 @@ class PhoneBook {
         callController.endCall()
         this.#modalWindow.hide()
         this.callDurationEl.innerHTML = '00:00'
+        this.list(this.#contacts)
     }
 
     #trackCallStatus = (newStatus) => {
@@ -228,6 +241,18 @@ class PhoneBook {
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>`
+        return wrapper
+    }
+
+    createHistoryTemplate(call) {
+        console.log(call)
+        const wrapper = document.createElement('div')
+        wrapper.className =
+            'list-group-item d-flex justify-content-between align-items-center bg-secondary text-white'
+        wrapper.setAttribute('data-user-id2', call.phone.id)
+
+        wrapper.innerHTML = `<span class="contacts__contact">${call.phone.name}</span>
+                            <div>${call.status}</div>`
         return wrapper
     }
 }

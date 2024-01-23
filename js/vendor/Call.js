@@ -1,5 +1,5 @@
 class Call {
-    #debugFlag = true
+    #debugFlag = false
     #connectionTimeout = 2000
     #connectionTimer = null
 
@@ -156,5 +156,13 @@ class Call {
 
     get duration() {
         return this.#duration
+    }
+
+    get phone() {
+        return this.#phone
+    }
+
+    get status() {
+        return this.#status
     }
 }
