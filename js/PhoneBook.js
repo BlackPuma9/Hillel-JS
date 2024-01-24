@@ -181,6 +181,7 @@ class PhoneBook {
 
     #searchHandler = (event) => {
         const { target: element } = event
+        event.stopPropagation()
         this.search(
             element.closest('.input-group').querySelector('input').value
         )
@@ -245,7 +246,9 @@ class PhoneBook {
     }
 
     createHistoryTemplate(call) {
-        console.log(call)
+        const historyText = document.getElementById('call-history-text')
+        historyText.innerHTML = ''
+
         const wrapper = document.createElement('div')
         wrapper.className =
             'list-group-item d-flex justify-content-between align-items-center bg-secondary text-white'

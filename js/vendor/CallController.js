@@ -14,7 +14,6 @@ class CallController {
             console.warn('You currently no call!')
             return this.#currentCall
         }
-
         this.#currentCall = new Call(phoneNumber)
     }
 
@@ -31,12 +30,10 @@ class CallController {
     endCallByCaller() {
         if (!this.#currentCall) {
             console.warn('Current call is not exist 404')
-            return null
+            return
         }
 
         this.#currentCall.endCallOutside()
-        this.#callHistory.push(Object.freeze(this.#currentCall))
-        this.#currentCall = null
     }
 
     #trackCallStatus() {
