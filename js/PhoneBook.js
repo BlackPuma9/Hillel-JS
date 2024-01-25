@@ -225,20 +225,20 @@ class PhoneBook {
     createContactTemplate(user) {
         const wrapper = document.createElement('div')
         wrapper.className =
-            'list-group-item d-flex justify-content-between align-items-center bg-secondary text-white'
+            'list-group-item d-flex justify-content-between align-items-center rounded-pill bg-secondary text-white mb-1'
         wrapper.setAttribute('data-user-id', user.id)
 
         wrapper.innerHTML = `<span class="contacts__contact">${user.name}</span>
                             <div> 
                                 <button type="button" ${
                                     this.#ATTRS.dataCallBtn
-                                } class="btn btn-success">
+                                } class="btn btn-success rounded-pill">
                                     <i class="bi bi-telephone"></i>
                                 </button>
 
                                 <button type="button" ${
                                     this.#ATTRS.dataRemoveBtn
-                                } class="btn btn-danger">
+                                } class="btn btn-danger rounded-pill">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>`
@@ -251,7 +251,7 @@ class PhoneBook {
 
         const wrapper = document.createElement('div')
         wrapper.className =
-            'list-group-item d-flex justify-content-between align-items-center bg-secondary text-white'
+            'list-group-item d-flex justify-content-between align-items-center bg-secondary text-white mb-1 rounded-pill'
         wrapper.setAttribute('data-user-id2', call.phone.id)
 
         wrapper.innerHTML = `<span class="contacts__contact">${call.phone.name}</span>
