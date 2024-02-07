@@ -38,8 +38,7 @@ class PhoneBook {
 
         const ulHistory = document.querySelector('#history')
         const liHistory = callController.callHistory.map((call) =>
-            this.createHistoryTemplate(call)
-        )
+            this.createHistoryTemplate(call))
         ulHistory.innerHTML = ''
         ulHistory.prepend(...liHistory)
     }
