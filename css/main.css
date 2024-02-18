@@ -1,0 +1,4 @@
+.list-group-item {
+    --bs-list-group-color: white;
+    --bs-list-group-bg: grey;
+}

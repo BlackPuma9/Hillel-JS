@@ -5,9 +5,7 @@ const domSelectors = {
     loaderSelector: '[data-loading]',
 }
 
-// const fieldsToOutput = ['id', 'title']
-
-new Controller(
+new AlbumController(
     'https://jsonplaceholder.typicode.com/albums',
     'https://jsonplaceholder.typicode.com/photos?albumId=',
     domSelectors

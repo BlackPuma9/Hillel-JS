@@ -1,4 +1,4 @@
-class View {
+class AlbumView {
     #albumListSelector = null
     #list = null
     #loaderSelector = null
@@ -19,9 +19,9 @@ class View {
 
     createListItem(album) {
         const anchor = document.createElement('a')
-        anchor.setAttribute('href', '#')
-        anchor.setAttribute('data-id', album.id)
-        // anchor.setAttribute('target', '_blank')
+        anchor.setAttribute('href', `./pages/photos.html?albumId=${album.id}`)
+        // anchor.setAttribute('data-id', album.id)
+        anchor.setAttribute('target', '_blank')
         anchor.className = 'list-group-item list-group-item-action'
         anchor.innerHTML = `${album.id}. ${album.title}`
         return anchor
